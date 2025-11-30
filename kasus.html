@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasus - SIPKOH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Kasus Content Styles */
+        .kasus {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #219a52;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card:first-child {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .stat-card:first-child .stat-label {
+            color: white;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box button {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-investigasi {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-proses {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-selesai {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-tutup {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .priority-tinggi {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .priority-sedang {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .priority-rendah {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .btn-action {
+            padding: 0.4rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-view {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-track {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .page-btn:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .data-table {
+                min-width: 900px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">SIPKOH</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="laporan.html" class="nav-link">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a href="produk.html" class="nav-link">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kasus.html" class="nav-link active">Kasus</a>
+                </li>
+                <li class="nav-item">
+                    <a href="konsultasi.html" class="nav-link">Konsultasi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dokumen.html" class="nav-link">Dokumen</a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Kasus Content -->
+    <section class="kasus">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Manajemen Kasus</h1>
+                <div>
+                    <button class="btn btn-success" id="trackKasus">🔍 Track Kasus</button>
+                    <button class="btn btn-primary" id="tambahKasus">+ Buat Kasus Baru</button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">TOTAL KASUS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">SEDANG INVESTIGASI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">22</div>
+                    <div class="stat-label">DALAM PROSES</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">KASUS SELESAI</div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="search-box">
+                    <input type="text" id="searchKasus" placeholder="Cari kasus...">
+                    <button class="btn btn-primary">🔍 Cari</button>
+                </div>
+                <div class="filter-group">
+                    <label for="filterStatus">Status:</label>
+                    <select id="filterStatus">
+                        <option value="all">Semua Status</option>
+                        <option value="investigasi">Investigasi</option>
+                        <option value="proses">Dalam Proses</option>
+                        <option value="selesai">Selesai</option>
+                        <option value="tutup">Ditutup</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterPrioritas">Prioritas:</label>
+                    <select id="filterPrioritas">
+                        <option value="all">Semua Prioritas</option>
+                        <option value="tinggi">Tinggi</option>
+                        <option value="sedang">Sedang</option>
+                        <option value="rendah">Rendah</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" id="resetFilter">🔄 Reset</button>
+            </div>
+
+            <!-- Kasus Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nomor Kasus</th>
+                            <th>Deskripsi Kasus</th>
+                            <th>Prioritas</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <strong>KAS-2025-001</strong><br>
+                                <small>Produk: Kosmetik X</small>
+                            </td>
+                            <td>
+                                <strong>Kosmetik mengandung merkuri</strong><br>
+                                <small>Dilaporkan oleh: Budi Santoso</small>
+                            </td>
+                            <td><span class="priority-badge priority-tinggi">Tinggi</span></td>
+                            <td>25 Nov 2025</td>
+                            <td><span class="status-badge status-proses">Dalam Proses</span></td>
+                            <td>
+                                <button class="btn-action btn-track">📊 Track</button>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <strong>KAS-2025-002</strong><br>
+                                <small>Produk: Mainan Y</small>
+                            </td>
+                            <td>
+                                <strong>Mainan mengandung timbal</strong><br>
+                                <small>Dilaporkan oleh: Siti Rahayu</small>
+                            </td>
+                            <td><span class="priority-badge priority-tinggi">Tinggi</span></td>
+                            <td>24 Nov 2025</td>
+                            <td><span class="status-badge status-investigasi">Investigasi</span></td>
+                            <td>
+                                <button class="btn-action btn-track">📊 Track</button>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <strong>KAS-2025-003</strong><br>
+                                <small>Produk: Makanan Z</small>
+                            </td>
+                            <td>
+                                <strong>Makanan kadaluarsa diedarkan</strong><br>
+                                <small>Dilaporkan oleh: Ahmad Fauzi</small>
+                            </td>
+                            <td><span class="priority-badge priority-sedang">Sedang</span></td>
+                            <td>23 Nov 2025</td>
+                            <td><span class="status-badge status-selesai">Selesai</span></td>
+                            <td>
+                                <button class="btn-action btn-track">📊 Track</button>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <strong>KAS-2025-004</strong><br>
+                                <small>Produk: Obat A</small>
+                            </td>
+                            <td>
+                                <strong>Obat tradisional tanpa izin</strong><br>
+                                <small>Dilaporkan oleh: Maria Sari</small>
+                            </td>
+                            <td><span class="priority-badge priority-rendah">Rendah</span></td>
+                            <td>22 Nov 2025</td>
+                            <td><span class="status-badge status-tutup">Ditutup</span></td>
+                            <td>
+                                <button class="btn-action btn-track">📊 Track</button>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" disabled>« Sebelumnya</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Selanjutnya »</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Buat Kasus Baru -->
+    <div id="kasusModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚖️ Buat Kasus Baru</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formKasus">
+                    <div class="form-group">
+                        <label for="nomorKasus">Nomor Kasus</label>
+                        <input type="text" id="nomorKasus" placeholder="KAS-2025-XXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produkKasus">Produk Terkait</label>
+                        <select id="produkKasus" required>
+                            <option value="">Pilih Produk</option>
+                            <option value="kosmetik-x">Kosmetik X Whitening</option>
+                            <option value="mainan-y">Mainan Edukasi Y</option>
+                            <option value="makanan-z">Makanan Kaleng Z</option>
+                            <option value="obat-a">Obat Tradisional A</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deskripsiKasus">Deskripsi Kasus</label>
+                        <textarea id="deskripsiKasus" rows="3" placeholder="Jelaskan detail kasus yang terjadi" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prioritasKasus">Prioritas</label>
+                            <select id="prioritasKasus" required>
+                                <option value="">Pilih Prioritas</option>
+                                <option value="tinggi">🔴 Tinggi</option>
+                                <option value="sedang">🟡 Sedang</option>
+                                <option value="rendah">🟢 Rendah</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusKasus">Status Awal</label>
+                            <select id="statusKasus" required>
+                                <option value="">Pilih Status</option>
+                                <option value="investigasi">🕵️ Investigasi</option>
+                                <option value="proses">⚙️ Dalam Proses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pelaporKasus">Pelapor</label>
+                        <input type="text" id="pelaporKasus" placeholder="Nama pelapor" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Simpan Kasus</button>
+                        <button type="button" class="btn btn-secondary" id="batalKasus">❌ Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Track Kasus -->
+    <div id="trackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔍 Track Kasus</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formTrack">
+                    <div class="form-group">
+                        <label for="nomorTrack">Masukkan Nomor Kasus</label>
+                        <input type="text" id="nomorTrack" placeholder="Contoh: KAS-2025-001" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">🔍 Cari Kasus</button>
+                        <button type="button" class="btn btn-secondary" id="batalTrack">❌ Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 SIPKOH - Sistem Informasi Produk Hukum Berbahaya. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const kasusModal = document.getElementById('kasusModal');
+            const trackModal = document.getElementById('trackModal');
+            const btnTambahKasus = document.getElementById('tambahKasus');
+            const btnTrackKasus = document.getElementById('trackKasus');
+            const btnBatalKasus = document.getElementById('batalKasus');
+            const btnBatalTrack = document.getElementById('batalTrack');
+            const closeBtns = document.querySelectorAll('.close');
+            
+            // Open modals
+            btnTambahKasus.addEventListener('click', function() {
+                kasusModal.style.display = 'block';
+            });
+            
+            btnTrackKasus.addEventListener('click', function() {
+                trackModal.style.display = 'block';
+            });
+            
+            // Close modals with X buttons
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    kasusModal.style.display = 'none';
+                    trackModal.style.display = 'none';
+                });
+            });
+            
+            // Close modals with cancel buttons
+            btnBatalKasus.addEventListener('click', function() {
+                kasusModal.style.display = 'none';
+            });
+            
+            btnBatalTrack.addEventListener('click', function() {
+                trackModal.style.display = 'none';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === kasusModal) {
+                    kasusModal.style.display = 'none';
+                }
+                if (event.target === trackModal) {
+                    trackModal.style.display = 'none';
+                }
+            });
+            
+            // Form submissions
+            document.getElementById('formKasus').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Kasus berhasil dibuat!');
+                kasusModal.style.display = 'none';
+                this.reset();
+            });
+            
+            document.getElementById('formTrack').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const nomorKasus = document.getElementById('nomorTrack').value;
+                alert(`Melacak kasus: ${nomorKasus}\nFitur tracking sedang dikembangkan.`);
+                trackModal.style.display = 'none';
+                this.reset();
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Reset filter
+            document.getElementById('resetFilter').addEventListener('click', function() {
+                document.getElementById('searchKasus').value = '';
+                document.getElementById('filterStatus').value = 'all';
+                document.getElementById('filterPrioritas').value = 'all';
+            });
+            
+            // Auto-generate case number
+            document.getElementById('nomorKasus').value = 'KAS-2025-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang - SIPKOH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* About Content Styles */
+        .about {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin-bottom: 4rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e67e22, #e74c3c);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .team-name {
+            font-size: 1.25rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .team-role {
+            color: #3498db;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .team-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            margin-bottom: 4rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: #3498db;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -40px;
+        }
+
+        .timeline-year {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            margin-bottom: 4rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .partner-logo {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: #27ae60;
+        }
+
+        .btn-primary:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: #27ae60;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-content::before {
+                left: -40px !important;
+            }
+
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 1rem;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">SIPKOH</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link active">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="laporan.html" class="nav-link">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a href="produk.html" class="nav-link">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kasus.html" class="nav-link">Kasus</a>
+                </li>
+                <li class="nav-item">
+                    <a href="konsultasi.html" class="nav-link">Konsultasi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dokumen.html" class="nav-link">Dokumen</a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Content -->
+    <section class="about">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Tentang SIPKOH</h1>
+                <p class="page-subtitle">Sistem Informasi Produk Hukum Berbahaya - Platform terpercaya untuk melindungi masyarakat dari produk berbahaya</p>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title">Melindungi Masyarakat dari Produk Berbahaya</h2>
+                    <p class="hero-description">
+                        SIPKOH hadir sebagai solusi terintegrasi untuk melaporkan, menginvestigasi, 
+                        dan menangani produk berbahaya dengan pendekatan hukum yang komprehensif.
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">1,250+</div>
+                            <div class="hero-stat-label">Laporan Diterima</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">850+</div>
+                            <div class="hero-stat-label">Kasus Diselesaikan</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">95%</div>
+                            <div class="hero-stat-label">Kepuasan Pengguna</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">50+</div>
+                            <div class="hero-stat-label">Perusahaan Terkait</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-section">
+                <h2 class="section-title">Fitur Utama SIPKOH</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h3 class="feature-title">Pelaporan Produk</h3>
+                        <p class="feature-description">
+                            Sistem pelaporan yang mudah dan cepat untuk produk berbahaya 
+                            dengan bukti yang dapat diunggah secara real-time.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3 class="feature-title">Konsultasi Hukum</h3>
+                        <p class="feature-description">
+                            Akses ke konsultan hukum profesional untuk panduan lengkap 
+                            dalam menangani produk berbahaya secara legal.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title">Investigasi Kasus</h3>
+                        <p class="feature-description">
+                            Tim investigasi berpengalaman yang akan menelusuri dan 
+                            mengungkap kasus produk berbahaya hingga tuntas.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Analisis Data</h3>
+                        <p class="feature-description">
+                            Sistem analisis data canggih untuk memantau tren dan 
+                            pola produk berbahaya di masyarakat.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3 class="feature-title">Notifikasi Real-time</h3>
+                        <p class="feature-description">
+                            Update real-time tentang perkembangan laporan dan 
+                            peringatan dini produk berbahaya.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3 class="feature-title">Kolaborasi Institusi</h3>
+                        <p class="feature-description">
+                            Kerjasama dengan BPOM, Kementerian Kesehatan, dan 
+                            institusi terkait untuk penanganan maksimal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <h2 class="section-title">Tim Kami</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-avatar">DW</div>
+                        <h3 class="team-name">Dr. Rina Wijaya</h3>
+                        <div class="team-role">Kepala Investigasi</div>
+                        <p class="team-description">
+                            Ahli produk berbahaya dengan pengalaman 15 tahun di BPOM 
+                            dan Kementerian Kesehatan.
+                        </p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">AS</div>
+                        <h3 class="team-name">Ahmad Surya, S.H.</h3>
+                        <div class="team-role">Konsultan Hukum</div>
+                        <p class="team-description">
+                            Spesialis hukum konsumen dan produk dengan track record 
+                            penyelesaian 200+ kasus.
+                        </p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">MS</div>
+                        <h3 class="team-name">Maya Sari, S.H.</h3>
+                        <div class="team-role">Legal Advisor</div>
+                        <p class="team-description">
+                            Berpengalaman dalam litigasi produk berbahaya dan 
+                            perlindungan konsumen.
+                        </p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">BD</div>
+                        <h3 class="team-name">Budi Dharma</h3>
+                        <div class="team-role">Koordinator Teknologi</div>
+                        <p class="team-description">
+                            Ahli sistem informasi dengan fokus pada pengembangan 
+                            platform keamanan produk.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="timeline-section">
+                <h2 class="section-title">Sejarah Perkembangan</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="timeline-year">2022</span>
+                            <h3 class="timeline-title">Inisiasi Proyek</h3>
+                            <p class="timeline-description">
+                                Dimulai sebagai penelitian tentang efektivitas sistem 
+                                pelaporan produk berbahaya di Indonesia.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="timeline-year">2023</span>
+                            <h3 class="timeline-title">Pengembangan Platform</h3>
+                            <p class="timeline-description">
+                                Pengembangan sistem integrasi dengan BPOM dan 
+                                Kementerian Kesehatan.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="timeline-year">2024</span>
+                            <h3 class="timeline-title">Peluncuran Beta</h3>
+                            <p class="timeline-description">
+                                Peluncuran versi beta dengan 1000 pengguna pertama 
+                                dan perbaikan berdasarkan feedback.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="timeline-year">2025</span>
+                            <h3 class="timeline-title">Peluncuran Resmi</h3>
+                            <p class="timeline-description">
+                                Peluncuran resmi SIPKOH dengan fitur lengkap dan 
+                                integrasi nasional.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partners Section -->
+            <div class="partners-section">
+                <h2 class="section-title">Mitra Kerjasama</h2>
+                <div class="partners-grid">
+                    <div class="partner-logo">BPOM</div>
+                    <div class="partner-logo">KEMENKES</div>
+                    <div class="partner-logo">KEMENKUMHAM</div>
+                    <div class="partner-logo">YLKI</div>
+                    <div class="partner-logo">AKLI</div>
+                    <div class="partner-logo">GPMB</div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2 class="cta-title">Siap Melindungi Masyarakat Bersama Kami?</h2>
+                <p class="cta-description">
+                    Bergabunglah dengan ribuan pengguna lainnya dalam melaporkan 
+                    dan mencegah peredaran produk berbahaya di masyarakat.
+                </p>
+                <a href="laporan.html" class="btn btn-primary">📝 Buat Laporan Pertama</a>
+                <a href="konsultasi.html" class="btn btn-outline">💬 Konsultasi Gratis</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tentang SIPKOH</h3>
+                    <p>
+                        Sistem Informasi Produk Hukum Berbahaya - Platform terintegrasi 
+                        untuk melaporkan dan menangani produk berbahaya dengan pendekatan hukum.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>Link Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="laporan.html">Buat Laporan</a></li>
+                        <li><a href="konsultasi.html">Konsultasi</a></li>
+                        <li><a href="dokumen.html">Dokumen</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <ul class="footer-links">
+                        <li>📧 info@sipkoh.go.id</li>
+                        <li>📞 +62 21 1234 5678</li>
+                        <li>📍 Gedung Kementerian Kesehatan Lt. 5</li>
+                        <li>🕒 Senin - Jumat, 08:00 - 17:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SIPKOH - Sistem Informasi Produk Hukum Berbahaya. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Animasi scroll untuk timeline
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            timelineItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+
+            // Counter animation untuk stats
+            const statNumbers = document.querySelectorAll('.hero-stat-number');
+            
+            const startCounters = () => {
+                statNumbers.forEach(stat => {
+                    const target = parseInt(stat.textContent);
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            stat.textContent = target + (stat.textContent.includes('+') ? '+' : '');
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                        }
+                    }, 16);
+                });
+            };
+
+            // Start counters when stats section is in view
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startCounters();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            statsObserver.observe(document.querySelector('.hero-stats'));
+        });
+    </script>
+</body>
+</html>

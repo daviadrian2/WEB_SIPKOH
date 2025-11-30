@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SIPKOH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Profile Content Styles */
+        .profile {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #219a52;
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        /* Profile Layout */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Sidebar Profile */
+        .profile-sidebar {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            text-align: center;
+            height: fit-content;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-role {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .profile-badge {
+            background: linear-gradient(135deg, #e67e22, #e74c3c);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .profile-action-btn {
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .profile-action-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .profile-action-btn.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        /* Profile Content */
+        .profile-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Informasi Pribadi */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* Aktivitas Terbaru */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .activity-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e8f4fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Security Grid */
+        .security-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-title {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .security-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Notifikasi Settings */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        .notification-info {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #27ae60;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">SIPKOH</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="laporan.html" class="nav-link">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a href="produk.html" class="nav-link">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kasus.html" class="nav-link">Kasus</a>
+                </li>
+                <li class="nav-item">
+                    <a href="konsultasi.html" class="nav-link">Konsultasi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dokumen.html" class="nav-link">Dokumen</a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link active">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <section class="profile">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Manajemen Profil</h1>
+                <button class="btn btn-primary" id="editProfile">✏️ Edit Profil</button>
+            </div>
+
+            <div class="profile-layout">
+                <!-- Sidebar Profil -->
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">DA</div>
+                    <h2 class="profile-name">Davi Adrian</h2>
+                    <p class="profile-role">Pengguna Terverifikasi</p>
+                    <div class="profile-badge">⭐ Member Gold</div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Laporan</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Konsultasi</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="profile-action-btn active" data-section="overview">
+                            👤 Informasi Pribadi
+                        </button>
+                        <button class="profile-action-btn" data-section="edit">
+                            ✏️ Edit Profil
+                        </button>
+                        <button class="profile-action-btn" data-section="security">
+                            🔒 Keamanan
+                        </button>
+                        <button class="profile-action-btn" data-section="notifications">
+                            🔔 Notifikasi
+                        </button>
+                        <button class="profile-action-btn" data-section="activity">
+                            📊 Aktivitas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Konten Profil -->
+                <div class="profile-content">
+                    <!-- Overview Section -->
+                    <div class="content-section active" id="overview-section">
+                        <h3 class="section-title">👤 Informasi Pribadi</h3>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-label">Nama Lengkap</div>
+                                <div class="info-value">Davi Adrian</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Email</div>
+                                <div class="info-value">davi.drian@email.com</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Telepon</div>
+                                <div class="info-value">+62 812-3456-0808</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Bergabung</div>
+                                <div class="info-value">15 Januari 2024</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Alamat</div>
+                                <div class="info-value">Jl. Kp.Kalawi No.8A, Padang</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Status</div>
+                                <div class="info-value" style="color: #27ae60;">Aktif</div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-bottom: 1rem; color: #2c3e50;">📊 Aktivitas Terbaru</h4>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">📝</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Membuat Laporan Baru</div>
+                                    <div class="activity-desc">Laporan Produk Kosmetik X</div>
+                                </div>
+                                <div class="activity-time">2 jam lalu</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">💬</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Konsultasi Hukum</div>
+                                    <div class="activity-desc">Dengan Dr. Rina Wijaya</div>
+                                </div>
+                                <div class="activity-time">1 hari lalu</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📁</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Mengupload Dokumen</div>
+                                    <div class="activity-desc">Bukti produk berbahaya</div>
+                                </div>
+                                <div class="activity-time">2 hari lalu</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Profile Section -->
+                    <div class="content-section" id="edit-section">
+                        <h3 class="section-title">✏️ Edit Profil</h3>
+                        <form id="profileForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Nama Depan</label>
+                                    <input type="text" class="form-input" value="Davi" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nama Belakang</label>
+                                    <input type="text" class="form-input" value="Adrian" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" value="davi.drian@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Telepon</label>
+                                    <input type="tel" class="form-input" value="+6281234560808" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">Alamat</label>
+                                    <textarea class="form-input" rows="3">Jl. Kp.Kalawi No.8A, Padang</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tanggal Lahir</label>
+                                    <input type="date" class="form-input" value="1995-08-15">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Jenis Kelamin</label>
+                                    <select class="form-input">
+                                        <option value="male" selected>Laki-laki</option>
+                                        <option value="female">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
+                                <button type="button" class="btn btn-secondary" id="cancelEdit">❌ Batal</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="content-section" id="security-section">
+                        <h3 class="section-title">🔒 Keamanan Akun</h3>
+                        <div class="security-grid">
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-title">Password</div>
+                                    <div class="security-desc">Terakhir diubah 3 bulan lalu</div>
+                                </div>
+                                <button class="btn btn-warning" id="changePassword">Ubah Password</button>
+                            </div>
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-title">Verifikasi 2 Faktor</div>
+                                    <div class="security-desc">Tambah lapisan keamanan ekstra</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-title">Sesi Aktif</div>
+                                    <div class="security-desc">1 perangkat aktif</div>
+                                </div>
+                                <button class="btn btn-secondary">Lihat Semua</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="content-section" id="notifications-section">
+                        <h3 class="section-title">🔔 Pengaturan Notifikasi</h3>
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <div class="notification-title">Notifikasi Email</div>
+                                    <div class="notification-desc">Kirim notifikasi via email</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <div class="notification-title">Notifikasi Laporan</div>
+                                    <div class="notification-desc">Update status laporan</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <div class="notification-title">Notifikasi Konsultasi</div>
+                                    <div class="notification-desc">Pesan dari konsultan</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <div class="notification-title">Pengingat Bulanan</div>
+                                    <div class="notification-desc">Laporan dan statistik</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Section -->
+                    <div class="content-section" id="activity-section">
+                        <h3 class="section-title">📊 Riwayat Aktivitas</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">📝</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Membuat Laporan Baru</div>
+                                    <div class="activity-desc">Laporan Produk Kosmetik X - Status: Diproses</div>
+                                </div>
+                                <div class="activity-time">25 Nov 2025</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">💬</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Konsultasi Hukum</div>
+                                    <div class="activity-desc">Dengan Dr. Rina Wijaya - Topik: Kosmetik Berbahaya</div>
+                                </div>
+                                <div class="activity-time">24 Nov 2025</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📁</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Mengupload Dokumen</div>
+                                    <div class="activity-desc">Bukti foto produk kosmetik X</div>
+                                </div>
+                                <div class="activity-time">23 Nov 2025</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">👁️</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Melihat Kasus</div>
+                                    <div class="activity-desc">Kasus KAS-2025-001 - Produk Kosmetik X</div>
+                                </div>
+                                <div class="activity-time">22 Nov 2025</div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">🔔</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Notifikasi</div>
+                                    <div class="activity-desc">Status laporan berubah menjadi Diproses</div>
+                                </div>
+                                <div class="activity-time">21 Nov 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Ubah Password -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Ubah Password</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label class="form-label">Password Saat Ini</label>
+                        <input type="password" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password Baru</label>
+                        <input type="password" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Konfirmasi Password Baru</label>
+                        <input type="password" class="form-input" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">🔐 Ubah Password</button>
+                        <button type="button" class="btn btn-secondary" id="cancelPassword">❌ Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 SIPKOH - Sistem Informasi Produk Hukum Berbahaya. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section Navigation
+            const profileActions = document.querySelectorAll('.profile-action-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            profileActions.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Update active button
+                    profileActions.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(`${sectionId}-section`).classList.add('active');
+                });
+            });
+
+            // Modal functionality
+            const passwordModal = document.getElementById('passwordModal');
+            const btnChangePassword = document.getElementById('changePassword');
+            const btnCancelPassword = document.getElementById('cancelPassword');
+            const closeBtns = document.querySelectorAll('.close');
+            
+            // Open password modal
+            btnChangePassword.addEventListener('click', function() {
+                passwordModal.style.display = 'block';
+            });
+            
+            // Close modals with X buttons
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    passwordModal.style.display = 'none';
+                });
+            });
+            
+            // Close password modal with cancel button
+            btnCancelPassword.addEventListener('click', function() {
+                passwordModal.style.display = 'none';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === passwordModal) {
+                    passwordModal.style.display = 'none';
+                }
+            });
+            
+            // Form submissions
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Profil berhasil diperbarui!');
+                // Update displayed data
+                document.querySelector('.profile-name').textContent = 'Davi Adrian';
+                document.querySelector('.profile-avatar').textContent = 'DA';
+                // Switch back to overview
+                profileActions[0].click();
+            });
+            
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Password berhasil diubah!');
+                passwordModal.style.display = 'none';
+                this.reset();
+            });
+            
+            // Edit Profile button
+            document.getElementById('editProfile').addEventListener('click', function() {
+                profileActions[1].click();
+            });
+            
+            // Cancel Edit button
+            document.getElementById('cancelEdit').addEventListener('click', function() {
+                profileActions[0].click();
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Toggle switch functionality
+            const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+            toggleSwitches.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const action = this.checked ? 'diaktifkan' : 'dinonaktifkan';
+                    alert(`Fitur ${action}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - SIPKOH</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    
+    <!-- Vendor CSS Files -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="text-center mb-4"><h4>SIPKOH</h4></div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a class="nav-link" href="produk.html"><i class="bi bi-box"></i> Produk</a>
+                    <a class="nav-link" href="laporan.html"><i class="bi bi-file-text"></i> Laporan</a>
+                    <a class="nav-link" href="kasus.html"><i class="bi bi-briefcase"></i> Kasus</a>
+                    <a class="nav-link" href="konsultasi.html"><i class="bi bi-chat-dots"></i> Konsultasi</a>
+                    <a class="nav-link" href="dokumen.html"><i class="bi bi-folder"></i> Dokumen</a>
+                    <a class="nav-link active" href="users.html"><i class="bi bi-people"></i> Users</a>
+                    <a class="nav-link" href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                </nav>
+            </div>
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Manajemen Users</h2>
+                    <button class="btn btn-primary" onclick="showAddModal()"><i class="bi bi-plus"></i> Tambah User</button>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4"><input type="text" class="form-control" id="searchInput" placeholder="Cari user..."></div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="roleFilter">
+                                    <option value="">Semua Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="konsultan">Konsultan</option>
+                                    <option value="masyarakat">Masyarakat</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2"><button class="btn btn-secondary w-100" onclick="loadUsers()">Filter</button></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Telepon</th>
+                                        <th>Tanggal Daftar</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody"><tr><td colspan="6" class="text-center">Memuat...</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Tambah User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <div class="mb-3">
+                            <label class="form-label">Nama *</label>
+                            <input type="text" class="form-control" id="nama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password <span id="passwordRequired">*</span></label>
+                            <input type="password" class="form-control" id="password">
+                            <small class="text-muted" id="passwordHint">Kosongkan jika tidak ingin mengubah password</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role *</label>
+                            <select class="form-select" id="role" required>
+                                <option value="masyarakat">Masyarakat</option>
+                                <option value="konsultan">Konsultan</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telepon</label>
+                            <input type="text" class="form-control" id="telepon">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="saveUser()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        let userModal, currentUser;
+        
+        async function init() {
+            currentUser = await checkAuth();
+            if (!currentUser || currentUser.role !== 'admin') {
+                window.location.href = '/dashboard';
+                return;
+            }
+            
+            userModal = new bootstrap.Modal(document.getElementById('userModal'));
+            await loadUsers();
+        }
+        
+        async function loadUsers() {
+            const params = new URLSearchParams();
+            if (document.getElementById('searchInput').value) params.append('search', document.getElementById('searchInput').value);
+            if (document.getElementById('roleFilter').value) params.append('role', document.getElementById('roleFilter').value);
+            
+            const data = await API.get(`/users?${params}`);
+            const tbody = document.getElementById('usersTableBody');
+            
+            if (data.success && data.data.length > 0) {
+                tbody.innerHTML = data.data.map(u => `
+                    <tr>
+                        <td>${u.nama}</td>
+                        <td>${u.email}</td>
+                        <td><span class="badge bg-${getRoleColor(u.role)}">${u.role}</span></td>
+                        <td>${u.telepon || '-'}</td>
+                        <td>${new Date(u.created_at).toLocaleDateString('id-ID')}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editUser(${u.id})"><i class="bi bi-pencil"></i></button>
+                            ${u.id !== currentUser.id ? `<button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})"><i class="bi bi-trash"></i></button>` : ''}
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+            }
+        }
+        
+        function getRoleColor(role) {
+            const colors = { admin: 'danger', konsultan: 'warning', masyarakat: 'info' };
+            return colors[role] || 'secondary';
+        }
+        
+        function showAddModal() {
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('passwordRequired').style.display = 'inline';
+            document.getElementById('passwordHint').style.display = 'none';
+            document.getElementById('password').required = true;
+            document.getElementById('modalTitle').textContent = 'Tambah User';
+            userModal.show();
+        }
+        
+        async function editUser(id) {
+            const data = await API.get(`/users/${id}`);
+            if (data.success) {
+                const u = data.data;
+                document.getElementById('userId').value = u.id;
+                document.getElementById('nama').value = u.nama;
+                document.getElementById('email').value = u.email;
+                document.getElementById('role').value = u.role;
+                document.getElementById('telepon').value = u.telepon || '';
+                document.getElementById('alamat').value = u.alamat || '';
+                document.getElementById('passwordRequired').style.display = 'none';
+                document.getElementById('passwordHint').style.display = 'block';
+                document.getElementById('password').required = false;
+                document.getElementById('modalTitle').textContent = 'Edit User';
+                userModal.show();
+            }
+        }
+        
+        async function saveUser() {
+            const id = document.getElementById('userId').value;
+            const formData = {
+                nama: document.getElementById('nama').value,
+                email: document.getElementById('email').value,
+                role: document.getElementById('role').value,
+                telepon: document.getElementById('telepon').value,
+                alamat: document.getElementById('alamat').value
+            };
+            
+            const password = document.getElementById('password').value;
+            if (password) formData.password = password;
+            
+            const url = id ? `/api/users/${id}` : '/api/users';
+            const method = id ? 'PUT' : 'POST';
+            
+            const data = await API.request(url, { method, body: JSON.stringify(formData) });
+            if (data.success) {
+                userModal.hide();
+                loadUsers();
+                alert('User berhasil disimpan');
+            } else alert('Error: ' + data.message);
+        }
+        
+        async function deleteUser(id) {
+            if (!confirm('Yakin ingin menghapus user ini?')) return;
+            const data = await API.delete(`/users/${id}`);
+            if (data.success) {
+                loadUsers();
+                alert('User berhasil dihapus');
+            } else alert('Error: ' + data.message);
+        }
+        
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loadUsers();
+        });
+        
+        init();
+    </script>
+</body>
+</html>
+

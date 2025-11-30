@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - SIPKOH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Produk Content Styles */
+        .produk {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card:first-child {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .stat-card:first-child .stat-label {
+            color: white;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box button {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-aman {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-waspada {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-berbahaya {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-action {
+            padding: 0.4rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-view {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .page-btn:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .data-table {
+                min-width: 800px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">SIPKOH</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="laporan.html" class="nav-link">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a href="produk.html" class="nav-link active">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kasus.html" class="nav-link">Kasus</a>
+                </li>
+                <li class="nav-item">
+                    <a href="konsultasi.html" class="nav-link">Konsultasi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dokumen.html" class="nav-link">Dokumen</a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Produk Content -->
+    <section class="produk">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Manajemen Produk</h1>
+                <button class="btn btn-primary" id="tambahProduk">+ Tambah Produk</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">TOTAL PRODUK</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">PRODUK AMAN</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">PRODUK WASPADA</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">PRODUK BERBAHAYA</div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="search-box">
+                    <input type="text" id="searchProduk" placeholder="Cari produk...">
+                    <button class="btn btn-primary">🔍 Cari</button>
+                </div>
+                <div class="filter-group">
+                    <label for="filterStatus">Status:</label>
+                    <select id="filterStatus">
+                        <option value="all">Semua Status</option>
+                        <option value="aman">Aman</option>
+                        <option value="waspada">Waspada</option>
+                        <option value="berbahaya">Berbahaya</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterKategori">Kategori:</label>
+                    <select id="filterKategori">
+                        <option value="all">Semua Kategori</option>
+                        <option value="makanan">Makanan</option>
+                        <option value="minuman">Minuman</option>
+                        <option value="kosmetik">Kosmetik</option>
+                        <option value="obat">Obat</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" id="resetFilter">🔄 Reset</button>
+            </div>
+
+            <!-- Produk Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Perusahaan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <strong>Kosmetik X Whitening</strong><br>
+                                <small>No. Registrasi: BPOM123456</small>
+                            </td>
+                            <td>Kosmetik</td>
+                            <td>PT. Beauty Indonesia</td>
+                            <td><span class="status-badge status-berbahaya">Berbahaya</span></td>
+                            <td>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                                <button class="btn-action btn-delete">🗑️ Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <strong>Mainan Edukasi Y</strong><br>
+                                <small>No. Registrasi: SNI789012</small>
+                            </td>
+                            <td>Mainan</td>
+                            <td>CV. Cerdas Anak</td>
+                            <td><span class="status-badge status-aman">Aman</span></td>
+                            <td>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                                <button class="btn-action btn-delete">🗑️ Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <strong>Makanan Kaleng Z</strong><br>
+                                <small>No. Registrasi: MD345678</small>
+                            </td>
+                            <td>Makanan</td>
+                            <td>PT. Sejahtera Pangan</td>
+                            <td><span class="status-badge status-waspada">Waspada</span></td>
+                            <td>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                                <button class="btn-action btn-delete">🗑️ Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <strong>Obat Tradisional A</strong><br>
+                                <small>No. Registrio: TR987654</small>
+                            </td>
+                            <td>Obat</td>
+                            <td>PT. Herbal Nusantara</td>
+                            <td><span class="status-badge status-berbahaya">Berbahaya</span></td>
+                            <td>
+                                <button class="btn-action btn-view">👁️ Detail</button>
+                                <button class="btn-action btn-edit">✏️ Edit</button>
+                                <button class="btn-action btn-delete">🗑️ Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" disabled>« Sebelumnya</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Selanjutnya »</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Tambah Produk -->
+    <div id="produkModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📦 Tambah Produk Baru</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formProduk">
+                    <div class="form-group">
+                        <label for="namaProduk">Nama Produk</label>
+                        <input type="text" id="namaProduk" placeholder="Masukkan nama produk" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kategoriProduk">Kategori</label>
+                        <select id="kategoriProduk" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="makanan">🍔 Makanan</option>
+                            <option value="minuman">🥤 Minuman</option>
+                            <option value="kosmetik">💄 Kosmetik</option>
+                            <option value="mainan">🧸 Mainan</option>
+                            <option value="obat">💊 Obat</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="perusahaanProduk">Perusahaan</label>
+                        <input type="text" id="perusahaanProduk" placeholder="Nama perusahaan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noRegistrasi">No. Registrasi</label>
+                        <input type="text" id="noRegistrasi" placeholder="Nomor registrasi BPOM/SNI" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusProduk">Status Keamanan</label>
+                        <select id="statusProduk" required>
+                            <option value="">Pilih Status</option>
+                            <option value="aman">🟢 Aman</option>
+                            <option value="waspada">🟡 Waspada</option>
+                            <option value="berbahaya">🔴 Berbahaya</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Simpan Produk</button>
+                        <button type="button" class="btn btn-secondary" id="batalProduk">❌ Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 SIPKOH - Sistem Informasi Produk Hukum Berbahaya. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.getElementById('produkModal');
+            const btnTambahProduk = document.getElementById('tambahProduk');
+            const btnBatalProduk = document.getElementById('batalProduk');
+            const closeBtn = document.querySelector('.close');
+            
+            // Open modal
+            btnTambahProduk.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+            
+            // Close modal with X button
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal with cancel button
+            btnBatalProduk.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Form submission
+            document.getElementById('formProduk').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Produk berhasil ditambahkan!');
+                modal.style.display = 'none';
+                this.reset();
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Reset filter
+            document.getElementById('resetFilter').addEventListener('click', function() {
+                document.getElementById('searchProduk').value = '';
+                document.getElementById('filterStatus').value = 'all';
+                document.getElementById('filterKategori').value = 'all';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsultasi - SIPKOH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Konsultasi Content Styles */
+        .konsultasi {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #219a52;
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card:first-child {
+            background-color: #9b59b6;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .stat-card:first-child .stat-label {
+            color: white;
+        }
+
+        /* Konsultasi Grid */
+        .konsultasi-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Konsultan List */
+        .konsultan-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .konsultan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .konsultan-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .konsultan-card:hover, .konsultan-card.active {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+
+        .konsultan-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .konsultan-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .konsultan-details h4 {
+            margin-bottom: 0.25rem;
+            color: #2c3e50;
+        }
+
+        .konsultan-details p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .konsultan-specialty {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .specialty-tag {
+            background-color: #e8f4fd;
+            color: #3498db;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #27ae60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chat-info h4 {
+            margin-bottom: 0.25rem;
+            color: #2c3e50;
+        }
+
+        .chat-info p {
+            color: #27ae60;
+            font-size: 0.8rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background-color: #f8f9fa;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background-color: #3498db;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .chat-input {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .chat-input button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+        }
+
+        /* Riwayat Konsultasi */
+        .riwayat-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .riwayat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .riwayat-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .riwayat-info {
+            flex: 1;
+        }
+
+        .riwayat-info h4 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .riwayat-meta {
+            display: flex;
+            gap: 1rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-selesai {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-proses {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-menunggu {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .konsultasi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">SIPKOH</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="laporan.html" class="nav-link">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a href="produk.html" class="nav-link">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kasus.html" class="nav-link">Kasus</a>
+                </li>
+                <li class="nav-item">
+                    <a href="konsultasi.html" class="nav-link active">Konsultasi</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dokumen.html" class="nav-link">Dokumen</a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link logout">Logout</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konsultasi Content -->
+    <section class="konsultasi">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Konsultasi Hukum</h1>
+                <button class="btn btn-primary" id="buatKonsultasi">+ Konsultasi Baru</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">KONSULTASI AKTIF</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">TOTAL KONSULTASI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">KONSULTAN HUKUM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">KEPUASAN KLIEN</div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="konsultasi-grid">
+                <!-- Konsultan List -->
+                <div class="konsultan-section">
+                    <h3 class="section-title">👨‍💼 Konsultan Hukum</h3>
+                    <div class="konsultan-list">
+                        <div class="konsultan-card active">
+                            <div class="konsultan-info">
+                                <div class="konsultan-avatar">DR</div>
+                                <div class="konsultan-details">
+                                    <h4>Dr. Rina Wijaya, S.H., M.H.</h4>
+                                    <p>Konsultan Utama</p>
+                                    <div class="konsultan-specialty">
+                                        <span class="specialty-tag">Produk Berbahaya</span>
+                                        <span class="specialty-tag">Konsumen</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="konsultan-card">
+                            <div class="konsultan-info">
+                                <div class="konsultan-avatar">AS</div>
+                                <div class="konsultan-details">
+                                    <h4>Ahmad Surya, S.H.</h4>
+                                    <p>Konsultan Senior</p>
+                                    <div class="konsultan-specialty">
+                                        <span class="specialty-tag">Litigasi</span>
+                                        <span class="specialty-tag">BPOM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="konsultan-card">
+                            <div class="konsultan-info">
+                                <div class="konsultan-avatar">MS</div>
+                                <div class="konsultan-details">
+                                    <h4>Maya Sari, S.H.</h4>
+                                    <p>Konsultan</p>
+                                    <div class="konsultan-specialty">
+                                        <span class="specialty-tag">Kesehatan</span>
+                                        <span class="specialty-tag">Kosmetik</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="konsultan-card">
+                            <div class="konsultan-info">
+                                <div class="konsultan-avatar">BD</div>
+                                <div class="konsultan-details">
+                                    <h4>Budi Dharma, S.H., LL.M.</h4>
+                                    <p>Konsultan Internasional</p>
+                                    <div class="konsultan-specialty">
+                                        <span class="specialty-tag">Import</span>
+                                        <span class="specialty-tag">Standar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="chat-section">
+                    <div class="chat-header">
+                        <div class="chat-avatar">DR</div>
+                        <div class="chat-info">
+                            <h4>Dr. Rina Wijaya, S.H., M.H.</h4>
+                            <p>● Online</p>
+                        </div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message received">
+                            <p>Selamat siang, saya Dr. Rina Wijaya. Ada yang bisa saya bantu terkait produk berbahaya?</p>
+                            <div class="message-time">12:30 PM</div>
+                        </div>
+                        <div class="message sent">
+                            <p>Selamat siang dok. Saya ingin konsultasi tentang kosmetik yang saya beli menyebabkan iritasi.</p>
+                            <div class="message-time">12:32 PM</div>
+                        </div>
+                        <div class="message received">
+                            <p>Bisa dijelaskan lebih detail? Produk apa mereknya dan sudah berapa lama digunakan?</p>
+                            <div class="message-time">12:33 PM</div>
+                        </div>
+                        <div class="message sent">
+                            <p>Merek "X Whitening", baru 3 hari pakai. Wajah saya jadi merah dan gatal.</p>
+                            <div class="message-time">12:34 PM</div>
+                        </div>
+                        <div class="message received">
+                            <p>Itu gejala khas kosmetik berbahaya. Apakah produknya ada nomor BPOM?</p>
+                            <div class="message-time">12:35 PM</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Ketik pesan Anda..." id="chatInput">
+                        <button class="btn btn-primary" id="sendMessage">Kirim</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Riwayat Konsultasi -->
+            <div class="riwayat-section">
+                <h3 class="section-title">📋 Riwayat Konsultasi</h3>
+                <div class="riwayat-list">
+                    <div class="riwayat-item">
+                        <div class="riwayat-info">
+                            <h4>Konsultasi Produk Kosmetik Berbahaya</h4>
+                            <div class="riwayat-meta">
+                                <span>Dr. Rina Wijaya</span>
+                                <span>25 Nov 2025</span>
+                                <span>Topik: Kosmetik & Kesehatan</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-proses">Dalam Proses</span>
+                    </div>
+                    <div class="riwayat-item">
+                        <div class="riwayat-info">
+                            <h4>Konsultasi Mainan Anak Tidak Aman</h4>
+                            <div class="riwayat-meta">
+                                <span>Ahmad Surya</span>
+                                <span>24 Nov 2025</span>
+                                <span>Topik: Standar Keamanan</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-selesai">Selesai</span>
+                    </div>
+                    <div class="riwayat-item">
+                        <div class="riwayat-info">
+                            <h4>Konsultasi Makanan Kadaluarsa</h4>
+                            <div class="riwayat-meta">
+                                <span>Maya Sari</span>
+                                <span>22 Nov 2025</span>
+                                <span>Topik: Perlindungan Konsumen</span>
+                            </div>
+                        </div>
+                        <span class="status-badge status-selesai">Selesai</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Buat Konsultasi Baru -->
+    <div id="konsultasiModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💬 Buat Konsultasi Baru</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formKonsultasi">
+                    <div class="form-group">
+                        <label for="topikKonsultasi">Topik Konsultasi</label>
+                        <input type="text" id="topikKonsultasi" placeholder="Masukkan topik konsultasi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kategoriKonsultasi">Kategori Masalah</label>
+                        <select id="kategoriKonsultasi" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="kosmetik">💄 Kosmetik Berbahaya</option>
+                            <option value="makanan">🍔 Makanan Tidak Aman</option>
+                            <option value="obat">💊 Obat Ilegal</option>
+                            <option value="mainan">🧸 Mainan Berbahaya</option>
+                            <option value="elektronik">📱 Produk Elektronik</option>
+                            <option value="lainnya">📋 Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="konsultanPilihan">Pilih Konsultan</label>
+                        <select id="konsultanPilihan" required>
+                            <option value="">Pilih Konsultan</option>
+                            <option value="dr-rina">Dr. Rina Wijaya - Produk Berbahaya</option>
+                            <option value="ahmad">Ahmad Surya - Litigasi</option>
+                            <option value="maya">Maya Sari - Kesehatan & Kosmetik</option>
+                            <option value="budi">Budi Dharma - Standar Internasional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deskripsiKonsultasi">Deskripsi Masalah</label>
+                        <textarea id="deskripsiKonsultasi" rows="4" placeholder="Jelaskan secara detail masalah yang dihadapi..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="lampiranKonsultasi">📎 Lampiran (Opsional)</label>
+                        <input type="file" id="lampiranKonsultasi" accept="image/*,.pdf,.doc,.docx">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💬 Mulai Konsultasi</button>
+                        <button type="button" class="btn btn-secondary" id="batalKonsultasi">❌ Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 SIPKOH - Sistem Informasi Produk Hukum Berbahaya. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk interaksi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.getElementById('konsultasiModal');
+            const btnBuatKonsultasi = document.getElementById('buatKonsultasi');
+            const btnBatalKonsultasi = document.getElementById('batalKonsultasi');
+            const closeBtn = document.querySelector('.close');
+            
+            // Open modal
+            btnBuatKonsultasi.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+            
+            // Close modal with X button
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal with cancel button
+            btnBatalKonsultasi.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Form submission
+            document.getElementById('formKonsultasi').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Konsultasi berhasil dibuat! Anda akan dihubungi oleh konsultan.');
+                modal.style.display = 'none';
+                this.reset();
+            });
+            
+            // Chat functionality
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendMessage');
+            const chatMessages = document.querySelector('.chat-messages');
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'message sent';
+                    messageElement.innerHTML = `
+                        <p>${message}</p>
+                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    `;
+                    chatMessages.appendChild(messageElement);
+                    chatInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // Auto reply after 2 seconds
+                    setTimeout(() => {
+                        const replyElement = document.createElement('div');
+                        replyElement.className = 'message received';
+                        replyElement.innerHTML = `
+                            <p>Terima kasih atas informasinya. Saya akan menganalisis kasus ini dan memberikan rekomendasi hukum.</p>
+                            <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                        `;
+                        chatMessages.appendChild(replyElement);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 2000);
+                }
+            }
+            
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Konsultan selection
+            const konsultanCards = document.querySelectorAll('.konsultan-card');
+            konsultanCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    konsultanCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update chat header
+                    const name = this.querySelector('h4').textContent;
+                    const avatar = this.querySelector('.konsultan-avatar').textContent;
+                    document.querySelector('.chat-avatar').textContent = avatar;
+                    document.querySelector('.chat-info h4').textContent = name;
+                });
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
